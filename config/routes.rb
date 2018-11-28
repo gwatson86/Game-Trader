@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   resources :games, only: [:index, :create, :show, :update, :delete]
   resources :messages, only: [:index, :create, :show, :update, :delete]
   resources :reviews, only: [:index, :create, :show, :update, :delete]
+
+  post 'login', to: 'users#login'
+  post 'update', to: 'users#update'
 end

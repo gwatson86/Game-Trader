@@ -2,7 +2,10 @@ require 'rest-client'
 
 class GamesController < ApplicationController
     def index
-        response_string = RestClient.get("https://api-endpoint.igdb.com/games/", {
+        userSearch = params[:userSearch]
+        platformID = params[:platformID]
+
+        response_string = RestClient.get("https://api-endpoint.igdb.com/games/?search=#{userSearch}&filter[platforms][in]=#{platformID}&fields=id,name,platforms,cover&limit=20", {
             "user-key": "5d8bfe0b9295fbe3a4e3e8d8c8d70522",
             Accept: "application/json"
         })

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+    has_secure_password
+
     has_many :owns, dependent: :destroy
     has_many :wants, dependent: :destroy
     has_many :owned_games, through: :owns, source: :game, dependent: :destroy
@@ -9,6 +11,8 @@ class User < ApplicationRecord
     has_many :received_reviews, class_name: 'Review', foreign_key: 'recipient_id', dependent: :destroy
 
     validates :username, length: {minimum: 3}
+    validates :username, uniqueness: true
     validates :email, length: {minimum: 7}
-    # validates :email, :format => URI::regexp(%w(@ .))
+    validates :email, uniqueness: true
+    validates :password, length: {minimum: 5}
 end
