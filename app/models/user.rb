@@ -11,7 +11,7 @@ class User < ApplicationRecord
     has_many :received_reviews, class_name: 'Review', foreign_key: 'recipient_id', dependent: :destroy
 
     validates :username, length: {minimum: 3}
-    validates :username, uniqueness: true
+    validates :username, uniqueness: { case_sensitive: false }
     validates :email, length: {minimum: 7}
     validates :email, uniqueness: true
     validates :password, length: {minimum: 5}

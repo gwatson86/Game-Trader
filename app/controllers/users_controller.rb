@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :authorized, only: [:index, :create]
+  skip_before_action :verify_authenticity_token, only: [:create]
   wrap_parameters false
 
   def index
@@ -13,16 +14,13 @@ class UsersController < ApplicationController
   end
   
   def create
-    @new_user = User.new(user_params)
+    @new_user = User.create(user_params)
     if @new_user.valid?
-      @new_user.save
-      render json: @new_user, status: :created
+      @token = encode_token(user_id: @new_user.id)
+      render json: { new_user: @new_user, jwt: @token }, status: :created
     else
       render json: {error: 'Failed'}, status: :not_acceptable
     end
-
-    # @new_user = User.create(user_params)
-    # render json: @new_user
   end
 
   def update
@@ -35,19 +33,19 @@ class UsersController < ApplicationController
     end
   end
 
-  def login
-    @user = User.find_by(username: params[:username])
+  # def login
+  #   @user = User.find_by(username: params[:username])
     
-    if @user && @user.authenticate(params[:password])
-      render :json => {
-        :token => JWT.encode( {user_id: @user.id }, nil, 'none')
-      }
-    else
-      render :json => {
-        :message => "Invalid credentials"
-      }, status: 400
-    end
-  end
+  #   if @user && @user.authenticate(params[:password])
+  #     render :json => {
+  #       :token => JWT.encode( {user_id: @user.id }, nil, 'none')
+  #     }
+  #   else
+  #     render :json => {
+  #       :message => "Invalid credentials"
+  #     }, status: 400
+  #   end
+  # end
   
   private
 

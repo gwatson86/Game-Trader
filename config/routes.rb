@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   resources :messages, only: [:index, :create, :show, :update, :delete]
   resources :reviews, only: [:index, :create, :show, :update, :delete]
 
-  post 'login', to: 'users#login'
+  post '/login', to: 'auth#create'
   post 'update', to: 'users#update'
 end
