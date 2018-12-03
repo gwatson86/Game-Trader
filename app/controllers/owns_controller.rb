@@ -14,18 +14,12 @@ class OwnsController < ApplicationController
     def create
         @new_own = Own.create(own_params)
 
-        # if @new_own.valid?
-        #     @new_own.save
-        # else
-        #     flash[:errors] = @new_own.errors.full_messages
-        # end
-
         render json: @new_own
     end
 
     private
 
     def own_params
-        params.require(:own).permit(:user_id, :game_id)
+        params.require(:own).permit(:user_id, :game_id, :game_name, :game_cover)
     end
 end

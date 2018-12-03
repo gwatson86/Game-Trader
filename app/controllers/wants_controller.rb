@@ -1,4 +1,6 @@
 class WantsController < ApplicationController
+    skip_before_action :verify_authenticity_token, only: [:create]
+    
     def index
         @wants = Want.all
         render json: @wants
@@ -24,6 +26,6 @@ class WantsController < ApplicationController
     private
 
     def want_params
-        params.require(:want).permit(:user_id, :game_id)
+        params.require(:want).permit(:user_id, :game_id, :game_name, :game_cover)
     end
 end
