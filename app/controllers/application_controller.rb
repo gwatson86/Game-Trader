@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
     def profile_init
         @user = current_user
         
-        render json: {user: @user.to_json(include: [:owns, :wants]), users: User.all.to_json(include: [:owns, :wants])}
+        # render json: {user: @user.to_json(include: [:owns, :wants]), users: User.all.to_json(include: [:owns, :wants])}
+        render json: User.all, include: [:owns, :wants]
     end
 end
