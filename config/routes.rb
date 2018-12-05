@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resources :reviews, only: [:index, :create, :show, :update, :delete]
 
   post '/login', to: 'auth#create'
+  get '/profile_init', to: 'application#profile_init'
 end

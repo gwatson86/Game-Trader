@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+    # skip_before_action :authorized, only: [:profile_init]
     before_action :authorized
 
     def encode_token(payload)
@@ -33,5 +34,11 @@ class ApplicationController < ActionController::Base
 
     def authorized
         render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+    end
+
+    def profile_init
+        @user = current_user
+        
+        render json: {user: @user.to_json(include: [:owns, :wants]), users: User.all.to_json(include: [:owns, :wants])}
     end
 end
