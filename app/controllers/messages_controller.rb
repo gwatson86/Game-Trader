@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+    skip_before_action :verify_authenticity_token, only: [:create]
+
     def index
         @messages = Message.all
         render json: @messages
@@ -10,13 +12,7 @@ class MessagesController < ApplicationController
     end
 
     def create
-        @new_message = Message.new(message_params)
-
-        if @new_message.valid?
-            @new_message.save
-        else
-            flash[:errors] = @new_message.errors.full_messages
-        end
+        @new_message = Message.create(message_params)
 
         render json: @new_message
     end

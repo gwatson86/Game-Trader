@@ -7,5 +7,4 @@ Rails.application.routes.draw do
   resources :reviews, only: [:index, :create, :show, :update, :delete]
 
   post '/login', to: 'auth#create'
-  post 'update', to: 'users#update'
 end
