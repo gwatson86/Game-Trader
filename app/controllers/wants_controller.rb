@@ -1,5 +1,6 @@
 class WantsController < ApplicationController
-    skip_before_action :verify_authenticity_token, only: [:create]
+    skip_before_action :authorized, only: [:index, :show, :destroy]
+    skip_before_action :verify_authenticity_token
     
     def index
         @wants = Want.all
@@ -21,6 +22,11 @@ class WantsController < ApplicationController
         end
 
         render json: @new_want
+    end
+
+    def destroy
+        @want = Want.find(params[:id])
+        @want.destroy
     end
 
     private
