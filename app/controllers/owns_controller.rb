@@ -1,5 +1,6 @@
 class OwnsController < ApplicationController
-    skip_before_action :verify_authenticity_token, only: [:create]
+    skip_before_action :authorized, only: [:index, :show, :destroy]
+    skip_before_action :verify_authenticity_token
 
     def index
         @owns = Own.all
@@ -15,6 +16,11 @@ class OwnsController < ApplicationController
         @new_own = Own.create(own_params)
 
         render json: @new_own
+    end
+
+    def destroy
+        @own = Own.find(params[:id])
+        @own.destroy
     end
 
     private
